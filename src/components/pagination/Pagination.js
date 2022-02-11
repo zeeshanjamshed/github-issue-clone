@@ -3,13 +3,13 @@ import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   paginationStyle: {
-    marginTop: "20px",
+    marginTop: theme.spacing(2),
     display: "flex",
     justifyContent: "center",
   },
-});
+}));
 
 const PaginationComponent = () => {
   const classes = useStyles();

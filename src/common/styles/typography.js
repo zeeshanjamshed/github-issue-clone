@@ -3,41 +3,22 @@ exports.typography = {
     h1: {
       fontSize: 48,
     },
-    h2: {
-      fontSize: 40,
+    small: {
+      fontSize: "14px",
     },
-    h3: {
-      fontSize: 36,
+    normal: {
+      fontSize: "16px",
+      fontStyle: "normal",
     },
-    h4: {
-      fontSize: 30,
+    large: {
+      fontSize: "20px",
     },
-    h5: {
-      fontSize: 24,
+
+    weightlight: {
+      fontWeight: "lighter",
     },
-    h6: {
-      fontSize: 16,
-    },
-    subtitle1: {
-      fontSize: 14,
-    },
-    subtitle2: {
-      fontSize: 12,
-    },
-    body1: {
-      fontWeight: 500,
-    },
-    body2: {
-      fontWeight: 300,
-    },
-    button: {
-      fontStyle: "italic",
-    },
-    caption: {
-      // fontSize: 14,
-    },
-    overline: {
-      // fontSize: 14,
+    weightbold: {
+      fontWeight: "bold",
     },
   },
 };

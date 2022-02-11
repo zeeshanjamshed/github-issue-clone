@@ -4,7 +4,7 @@ import { spacing } from "../styles/spacing";
 import { breakpoints } from "../styles/breakpoints";
 import { typography } from "../styles/typography";
 
-console.log(typography.typography, "typo");
+// console.log(typography.typography, "typo");
 
 export const theme = createTheme({
   palette: palette.palette,

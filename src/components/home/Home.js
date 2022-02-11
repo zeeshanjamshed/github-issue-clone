@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
+import { useTheme } from "@emotion/react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
@@ -18,32 +19,42 @@ import CircularProgress from "@mui/material/CircularProgress";
 import DoneIcon from "@mui/icons-material/Done";
 import TopBar from "../topBar/TopBar";
 import PaginationComponent from "../pagination/Pagination";
+import { theme } from "../../common/theme/theme";
 
 // mui styles
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   chip1: {
-    backgroundColor: "#F49118 !important",
-    marginLeft: "5px",
+    backgroundColor: `${theme.palette.warning.main} !important`,
+    fontWeight: `${theme.typography.weightlight.fontWeight} !important`,
+    marginLeft: theme.spacing(0.75),
   },
   chip2: {
-    backgroundColor: "#B5274D !important",
-    color: "#ffffff !important",
-    marginLeft: "5px",
+    backgroundColor: `${theme.palette.info.main} !important`,
+    fontWeight: `${theme.typography.weightlight.fontWeight} !important`,
+    color: `${theme.palette.common.white} !important`,
+    marginLeft: theme.spacing(0.75),
   },
   openIssues: {
-    marginLeft: "20px",
+    marginLeft: theme.spacing(2),
+    fontWeight: `${theme.typography.weightlight.fontWeight} !important`,
+    color: `${theme.palette.secondary.dark} !important`,
+  },
+  headerText: {
+    fontSize: `${theme.typography.normal.fontSize} !important`,
+    fontWeight: `${theme.typography.weightbold.fontWeight} !important`,
+    color: `${theme.palette.secondary.lightBlack} !important`,
   },
   selectStyling: {
-    color: "#57606A !important",
-    marginLeft: "20px",
-    fontSize: "14px !important",
+    color: `${theme.palette.secondary.dark} !important`,
+    marginLeft: theme.spacing(2),
+    fontSize: `${theme.typography.small.fontSize} !important`,
   },
   listHeaderWrapper: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between !important",
 
-    "@media (max-width: 992px)": {
+    [theme.breakpoints.down("md")]: {
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",
@@ -53,30 +64,42 @@ const useStyles = makeStyles({
   },
   listItemTextWrapper: {
     display: "flex",
-    // alignItems:"center",
-
-    "@media (max-width: 992px)": {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
     },
   },
   selectWrapper: {
     display: "flex",
     flexWrap: "wrap",
-
-    "@media (max-width: 992px)": {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
     },
   },
   menuStyling: {
-    backgroundColor: "white !important",
+    backgroundColor: `${theme.palette.common.white} !important`,
   },
-});
+  iconColor: {
+    color: `${theme.palette.success.main} !important`,
+  },
+  listText: {
+    color: theme.palette.common.lightBlack,
+    fontSize: `${theme.typography.normal.fontSize} !important`,
+    fontWeight: `${theme.typography.weightbold.fontWeight} !important`,
+    "&:hover": {
+      color: theme.palette.primary.main,
+    },
+  },
+  descText: {
+    fontSize: `${theme.typography.small.fontSize} !important`,
+  },
+}));
 
 const MenuProps = {
   PaperProps: {
     style: {
+      ...theme,
       width: 250,
-      border: "1px solid lightgray",
+      border: `1px solid ${theme.palette.secondary.main}`,
       boxShadow: "none",
     },
   },
@@ -84,25 +107,59 @@ const MenuProps = {
 
 const issuesList = [
   {
-    title: " We no longer support global installation of Create React App",
-    description: " #12022 opened yesterday by Arcanorum",
+    title: "We no longer support global installation of Create React App",
+    description: "#12022 opened yesterday by Arcanorum",
   },
   {
     title:
-      " Unable to create build after upgrading to react-script@5.0.0 #12020",
-    description: " #12022 opened yesterday by Arcanorum",
+      "Unable to create build after upgrading to react-script@5.0.0 #12020",
+    description: "#12022 opened yesterday by Arcanorum",
   },
   {
     title:
-      "  Error while running create-react-app command on windows 11 using WSL",
-    description: "   #12016 opened 3 days ago by aslamdoctor",
+      "Error while running create-react-app command on windows 11 using WSL",
+    description: "#12016 opened 3 days ago by aslamdoctor",
+  },
+];
+
+const selectData = [
+  {
+    option1: "Filter by Author",
+    option2: "Ten",
+    option3: "Author",
+  },
+  {
+    option1: "Filter by Label",
+    option2: "Ten",
+    option3: "Label",
+  },
+  {
+    option1: "Filter by Project",
+    option2: "Ten",
+    option3: "Project",
+  },
+  {
+    option1: "Filter by Milestone",
+    option2: "Ten",
+    option3: "Milestone",
+  },
+  {
+    option1: "Filter by Assignee",
+    option2: "Ten",
+    option3: "Assignee",
+  },
+  {
+    option1: "Filter by Sort",
+    option2: "Ten",
+    option3: "Sort",
   },
 ];
 
 const Home = () => {
   const [filter, setFilter] = React.useState("");
-
   const classes = useStyles();
+  const theme = useTheme();
+  console.log(theme.typography.small, "spacing");
 
   const handleChange = (event) => {
     setFilter(event.target.value);
@@ -115,14 +172,17 @@ const Home = () => {
       {/* list component */}
       <Grid
         sx={{
-          border: "1px solid lightgray",
+          border: `1px solid ${theme.palette.secondary.main}`,
           borderRadius: "8px",
-          marginTop: "20px",
+          marginTop: theme.spacing(2),
         }}
       >
         {/* list header */}
         <List
-          sx={{ backgroundColor: "#F6F8FA", borderRadius: "8px 8px 0px 0px" }}
+          sx={{
+            backgroundColor: `${theme.palette.secondary.light}`,
+            borderRadius: "8px 8px 0px 0px",
+          }}
           disablePadding
         >
           <ListItem disablePadding>
@@ -134,12 +194,9 @@ const Home = () => {
                 <ListItemText
                   primary={
                     <React.Fragment>
-                      <Typography fontSize={16} fontWeight="bold">
+                      <Typography className={classes.headerText}>
                         1,183 open
-                        <span
-                          className={classes.openIssues}
-                          style={{ color: "gray", fontWeight: "lighter" }}
-                        >
+                        <span className={classes.openIssues}>
                           {/* <DoneIcon /> */}
                           6,234 Closed
                         </span>
@@ -149,156 +206,47 @@ const Home = () => {
                 />
               </div>
               <div className={classes.selectWrapper}>
-                <FormControl sx={{ m: 0.4 }}>
-                  <Select
-                    variant="standard"
-                    value={filter}
-                    displayEmpty
-                    inputProps={{ "aria-label": "Without label" }}
-                    size="small"
-                    disableUnderline
-                    className={classes.selectStyling}
-                    sx={{ pt: 0.7 }}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>
-                      <b>Filter by Author</b>
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Ten
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Author
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ m: 0.4 }}>
-                  <Select
-                    variant="standard"
-                    value={filter}
-                    displayEmpty
-                    inputProps={{ "aria-label": "Without label" }}
-                    size="small"
-                    disableUnderline
-                    className={classes.selectStyling}
-                    sx={{ pt: 0.7 }}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>
-                      <b>Filter by Label</b>
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Ten
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Label
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ m: 0.4 }}>
-                  <Select
-                    variant="standard"
-                    value={filter}
-                    displayEmpty
-                    inputProps={{ "aria-label": "Without label" }}
-                    size="small"
-                    disableUnderline
-                    className={classes.selectStyling}
-                    sx={{ pt: 0.7 }}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>
-                      <b>Filter by Project</b>
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Ten
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Project
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ m: 0.4 }}>
-                  <Select
-                    variant="standard"
-                    value={filter}
-                    displayEmpty
-                    inputProps={{ "aria-label": "Without label" }}
-                    size="small"
-                    disableUnderline
-                    className={classes.selectStyling}
-                    sx={{ pt: 0.7 }}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>
-                      <b>Filter by Milestones</b>
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Ten
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Milestones
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ m: 0.4 }}>
-                  <Select
-                    variant="standard"
-                    value={filter}
-                    displayEmpty
-                    inputProps={{ "aria-label": "Without label" }}
-                    size="small"
-                    disableUnderline
-                    className={classes.selectStyling}
-                    sx={{ pt: 0.7 }}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>
-                      <b>Filter by Assignee</b>
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Ten
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Assignee
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ m: 0.4 }}>
-                  <Select
-                    variant="standard"
-                    value={filter}
-                    displayEmpty
-                    inputProps={{ "aria-label": "Without label" }}
-                    size="small"
-                    disableUnderline
-                    className={classes.selectStyling}
-                    sx={{ pt: 0.7 }}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>
-                      <b>Filter by sort</b>
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      Ten
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem value={filter} className={classes.menuStyling}>
-                      sort
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                {selectData.length ? (
+                  selectData.map((value, index) => {
+                    return (
+                      <FormControl sx={{ m: 0.4 }}>
+                        <Select
+                          variant="standard"
+                          value={filter}
+                          displayEmpty
+                          inputProps={{ "aria-label": "Without label" }}
+                          size="small"
+                          disableUnderline
+                          className={classes.selectStyling}
+                          sx={{ pt: 0.7 }}
+                          MenuProps={MenuProps}
+                        >
+                          <MenuItem>
+                            <b>{value.option1}</b>
+                          </MenuItem>
+                          <Divider />
+                          <MenuItem
+                            value={filter}
+                            className={classes.menuStyling}
+                          >
+                            {value.option2}
+                          </MenuItem>
+                          <Divider />
+                          <MenuItem
+                            value={filter}
+                            className={classes.menuStyling}
+                          >
+                            {value.option3}
+                          </MenuItem>
+                        </Select>
+                      </FormControl>
+                    );
+                  })
+                ) : (
+                  <Grid>
+                    <CircularProgress />
+                  </Grid>
+                )}
               </div>
             </ListItemButton>
           </ListItem>
@@ -312,31 +260,32 @@ const Home = () => {
                 <ListItem disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
-                      <AdjustOutlinedIcon color="success" />
+                      <AdjustOutlinedIcon
+                        color="success"
+                        className={classes.iconColor}
+                      />
                     </ListItemIcon>
                     <ListItemText
                       primary={
                         <React.Fragment>
-                          <Typography fontSize={16} fontWeight="bold">
+                          <Typography className={classes.listText}>
                             {value.title}
                             <Chip
                               label="issue: bug report"
                               size="small"
                               className={classes.chip1}
-                              sx={{ fontWeight: "light" }}
                             />
                             <Chip
                               label="needs triage"
                               size="small"
                               className={classes.chip2}
-                              sx={{ fontWeight: "light" }}
                             />
                           </Typography>
                         </React.Fragment>
                       }
                       secondary={
                         <React.Fragment>
-                          <Typography fontSize={13}>
+                          <Typography className={classes.descText}>
                             {value.description}
                           </Typography>
                         </React.Fragment>
