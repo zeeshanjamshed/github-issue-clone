@@ -3,6 +3,9 @@ exports.typography = {
     h1: {
       fontSize: 48,
     },
+    extraSmall: {
+      fontSize: "12px",
+    },
     small: {
       fontSize: "14px",
     },

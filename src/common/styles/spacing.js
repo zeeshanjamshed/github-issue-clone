@@ -1,6 +1,7 @@
 exports.spacing = {
   auto: "auto",
   0: "0",
+  0.4:"0.05rem",
   0.75: "0.15rem",
   1: "0.25rem",
   2: "0.5rem",
