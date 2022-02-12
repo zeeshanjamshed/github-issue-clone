@@ -58,8 +58,8 @@ const useStyles = makeStyles((theme) => ({
       border: `1px solid ${theme.palette.secondary.main}`,
     },
     [theme.breakpoints.down("sm")]: {
-    padding: theme.spacing(0, 2),
-    fontSize: theme.typography.extraSmall.fontSize,
+      padding: theme.spacing(0, 2),
+      fontSize: theme.typography.extraSmall.fontSize,
     },
   },
   issueButton: {
@@ -77,6 +77,8 @@ const useStyles = makeStyles((theme) => ({
   },
   menuStyling: {
     backgroundColor: `${theme.palette.common.white} !important`,
+    paddingTop: theme.spacing(0),
+    paddingBottom: theme.spacing(0),
   },
   iconColor: {
     fill: `${theme.palette.common.lightBlack} `,
@@ -131,7 +133,7 @@ const TopBar = () => {
                   size="small"
                   MenuProps={MenuProps}
                 >
-                  <MenuItem>
+                  <MenuItem className={classes.menuStyling}>
                     <b>{value.option1}</b>
                   </MenuItem>
                   <Divider />

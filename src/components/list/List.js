@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@mui/styles";
 import { useTheme } from "@emotion/react";
 import Grid from "@mui/material/Grid";
@@ -17,6 +17,8 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import DoneIcon from "@mui/icons-material/Done";
 import { theme } from "../../common/theme/theme";
+import allActions from "../../redux/action";
+import { useDispatch, useSelector } from "react-redux";
 
 // mui styles
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: theme.typography.weightlight.fontWeight,
     color: theme.palette.common.white,
     marginLeft: theme.spacing(0.75),
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: theme.spacing(0.75),
+    },
   },
   openIssues: {
     marginLeft: theme.spacing(2),
@@ -72,11 +77,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
     [theme.breakpoints.down("md")]: {
-      width: "100%",
+      justifyContent: "center",
+      alignItems: "center",
     },
   },
   menuStyling: {
     backgroundColor: `${theme.palette.common.white} !important`,
+    paddingTop: theme.spacing(0),
+    paddingBottom: theme.spacing(0),
   },
   iconColor: {
     color: theme.palette.success.main,
@@ -107,23 +115,6 @@ const MenuProps = {
     },
   },
 };
-
-const issuesList = [
-  {
-    title: "We no longer support global installation of Create React App",
-    description: "#12022 opened yesterday by Arcanorum",
-  },
-  {
-    title:
-      "Unable to create build after upgrading to react-script@5.0.0 #12020",
-    description: "#12022 opened yesterday by Arcanorum",
-  },
-  {
-    title:
-      "Error while running create-react-app command on windows 11 using WSL",
-    description: "#12016 opened 3 days ago by aslamdoctor",
-  },
-];
 
 const selectData = [
   {
@@ -162,7 +153,14 @@ const ListComponent = () => {
   const [filter, setFilter] = React.useState("");
   const classes = useStyles();
   const theme = useTheme();
-  console.log(theme.spacing(0.4), "spacing");
+  const dispatch = useDispatch();
+
+  const issuesData = useSelector((state) => state?.postReducer?.posts);
+  console.log(issuesData, "data");
+
+  useEffect(() => {
+    dispatch(allActions.fetchPosts());
+  }, []);
 
   const handleChange = (event) => {
     setFilter(event.target.value);
@@ -213,14 +211,13 @@ const ListComponent = () => {
                         variant="standard"
                         value={filter}
                         displayEmpty
-                        inputProps={{ "aria-label": "Without label" }}
                         size="small"
                         disableUnderline
                         className={classes.selectStyling}
-                        sx={{ pt: 0.7 }}
+                        sx={{ pt: 0.5 }}
                         MenuProps={MenuProps}
                       >
-                        <MenuItem>
+                        <MenuItem className={classes.menuStyling}>
                           <b>{value.option1}</b>
                         </MenuItem>
                         <Divider />
@@ -252,8 +249,8 @@ const ListComponent = () => {
       </List>
       <Divider />
       {/* list showing */}
-      {issuesList.length ? (
-        issuesList.map((value, index) => {
+      {issuesData.length ? (
+        issuesData.map((value, index) => {
           return (
             <List disablePadding key={index}>
               <ListItem disablePadding>
@@ -282,7 +279,7 @@ const ListComponent = () => {
                     secondary={
                       <React.Fragment>
                         <Typography className={classes.descText}>
-                          {value.description}
+                          #{value.number} {value.state} by {value.user.login}
                         </Typography>
                       </React.Fragment>
                     }

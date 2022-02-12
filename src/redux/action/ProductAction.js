@@ -30,7 +30,7 @@ export function fetchPosts () {
   return function (dispatch) {
     dispatch(fetchPostRequest())
     axios
-      .get(baseURL + "/users")
+      .get(baseURL + "/repos/facebook/create-react-app/issues")
       .then((response) => {
         const posts = response.data;
         dispatch(fetchPostSuccess(posts));
