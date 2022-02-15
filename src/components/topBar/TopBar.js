@@ -103,7 +103,9 @@ const filterSelectData = [
     option2: "Open issues and pull requests",
     option3: "Your issues",
     option4: "Your pull requests",
-    option5: "FIlter",
+    option5: "Everything assigned to you",
+    option6: "Everything mentioning you",
+    option7: "FIlter",
   },
 ];
 
@@ -151,6 +153,14 @@ const TopBar = () => {
                   <Divider />
                   <MenuItem value={filter} className={classes.menuStyling}>
                     {value.option5}
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem value={filter} className={classes.menuStyling}>
+                    {value.option6}
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem value={filter} className={classes.menuStyling}>
+                    {value.option7}
                   </MenuItem>
                 </Select>
               </FormControl>

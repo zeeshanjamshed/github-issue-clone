@@ -5,7 +5,7 @@ import Pagination from "@mui/material/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   paginationStyle: {
-    marginTop: theme.spacing(2),
+    margin: theme.spacing(2, 0),
     display: "flex",
     justifyContent: "center",
   },

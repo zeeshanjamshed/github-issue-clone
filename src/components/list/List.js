@@ -19,6 +19,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import { theme } from "../../common/theme/theme";
 import allActions from "../../redux/action";
 import { useDispatch, useSelector } from "react-redux";
+import { height } from "@mui/system";
 
 // mui styles
 const useStyles = makeStyles((theme) => ({
@@ -103,6 +104,12 @@ const useStyles = makeStyles((theme) => ({
   iconCustomization: {
     paddingTop: theme.spacing(0.4),
   },
+  LoadingStyle: {
+    height:"100vh",
+    display: "flex",
+    justifyContent:"center",
+    alignItems:"center"
+  }
 }));
 
 const MenuProps = {
@@ -119,32 +126,32 @@ const MenuProps = {
 const selectData = [
   {
     option1: "Filter by Author",
-    option2: "Ten",
+    option2: "oldest",
     option3: "Author",
   },
   {
     option1: "Filter by Label",
-    option2: "Ten",
+    option2: "oldest",
     option3: "Label",
   },
   {
     option1: "Filter by Project",
-    option2: "Ten",
+    option2: "oldest",
     option3: "Project",
   },
   {
     option1: "Filter by Milestone",
-    option2: "Ten",
+    option2: "oldest",
     option3: "Milestone",
   },
   {
     option1: "Filter by Assignee",
-    option2: "Ten",
+    option2: "oldest",
     option3: "Assignee",
   },
   {
     option1: "Filter by Sort",
-    option2: "Ten",
+    option2: "oldest",
     option3: "Sort",
   },
 ];
@@ -279,7 +286,7 @@ const ListComponent = () => {
                     secondary={
                       <React.Fragment>
                         <Typography className={classes.descText}>
-                          #{value.number} {value.state} by {value.user.login}
+                          #{value.number} {value.state}ed by {value.user.login}
                         </Typography>
                       </React.Fragment>
                     }
@@ -291,7 +298,7 @@ const ListComponent = () => {
           );
         })
       ) : (
-        <Grid>
+        <Grid className={classes.LoadingStyle}>
           <CircularProgress />
         </Grid>
       )}
