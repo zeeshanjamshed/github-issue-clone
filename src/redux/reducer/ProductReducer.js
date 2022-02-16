@@ -5,7 +5,7 @@ import {
 } from "../contains/actionTypes";
 
 const initialState = {
-  posts: [],
+  issueAPiData: {},
   loading: false,
   error: null
 };
@@ -22,7 +22,7 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        posts: action.payload,
+        issueAPiData: action.payload,
       };
 
     case FETCH_USER_ERROR:

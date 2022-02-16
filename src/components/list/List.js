@@ -19,7 +19,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import { theme } from "../../common/theme/theme";
 import allActions from "../../redux/action";
 import { useDispatch, useSelector } from "react-redux";
-import { height } from "@mui/system";
+import PaginationComponent from "../pagination/Pagination";
 
 // mui styles
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.dark,
     marginLeft: theme.spacing(2),
     fontSize: theme.typography.small.fontSize,
+    "& .css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input": {
+      backgroundColor: "transparent",
+    },
   },
   listHeaderWrapper: {
     display: "flex",
@@ -96,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: theme.typography.weightbold.fontWeight,
     "&:hover": {
       color: theme.palette.primary.main,
+      cursor: "pointer",
     },
   },
   descText: {
@@ -105,11 +109,11 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(0.4),
   },
   LoadingStyle: {
-    height:"100vh",
+    height: "100vh",
     display: "flex",
-    justifyContent:"center",
-    alignItems:"center"
-  }
+    justifyContent: "center",
+    alignItems: "center",
+  },
 }));
 
 const MenuProps = {
@@ -158,39 +162,48 @@ const selectData = [
 
 const ListComponent = () => {
   const [filter, setFilter] = React.useState("");
+  const [page, setPage] = React.useState(1);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const issuesData = useSelector((state) => state?.postReducer?.posts);
-  console.log(issuesData, "data");
+  const issuesData = useSelector((state) => state.postReducer);
+  console.log(issuesData, "issues Data");
+  const totalCount = issuesData.issueAPiData.total_count;
+  const loading = issuesData.loading;
 
-  useEffect(() => {
-    dispatch(allActions.fetchPosts());
-  }, []);
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
 
   const handleChange = (event) => {
     setFilter(event.target.value);
   };
 
+  useEffect(() => {
+    dispatch(allActions.fetchPosts(page, rowsPerPage));
+  }, [page]);
+
   return (
-    <Grid
-      sx={{
-        border: `1px solid ${theme.palette.secondary.main}`,
-        borderRadius: "8px",
-        marginTop: theme.spacing(2),
-      }}
-    >
-      {/* list header */}
-      <List
+    <>
+      <Grid
         sx={{
-          backgroundColor: `${theme.palette.secondary.light}`,
-          borderRadius: "8px 8px 0px 0px",
+          border: `1px solid ${theme.palette.secondary.main}`,
+          borderRadius: "8px",
+          marginTop: theme.spacing(2),
         }}
-        disablePadding
       >
-        <ListItem disablePadding>
-          <ListItemButton className={classes.listHeaderWrapper}>
+        {/* list header */}
+        <List
+          sx={{
+            backgroundColor: `${theme.palette.secondary.light}`,
+            borderRadius: "8px 8px 0px 0px",
+          }}
+          disablePadding
+        >
+          <ListItem className={classes.listHeaderWrapper}>
             <div className={classes.listItemTextWrapper}>
               <ListItemIcon className={classes.iconCustomization}>
                 <AdjustOutlinedIcon />
@@ -218,10 +231,10 @@ const ListComponent = () => {
                         variant="standard"
                         value={filter}
                         displayEmpty
-                        size="small"
+                        size="large"
                         disableUnderline
                         className={classes.selectStyling}
-                        sx={{ pt: 0.5 }}
+                        // sx={{ pt: 0.5 }}
                         MenuProps={MenuProps}
                       >
                         <MenuItem className={classes.menuStyling}>
@@ -251,25 +264,26 @@ const ListComponent = () => {
                 </Grid>
               )}
             </div>
-          </ListItemButton>
-        </ListItem>
-      </List>
-      <Divider />
-      {/* list showing */}
-      {issuesData.length ? (
-        issuesData.map((value, index) => {
-          return (
-            <List disablePadding key={index}>
-              <ListItem disablePadding>
-                <ListItemButton>
+          </ListItem>
+        </List>
+        <Divider />
+        {/* list showing */}
+        {!loading ? (
+          issuesData?.issueAPiData?.items?.map((value, index) => {
+            return (
+              <List disablePadding key={index}>
+                <ListItem className={classes.listHeaderWrapper}>
                   <ListItemIcon>
                     <AdjustOutlinedIcon className={classes.iconColor} />
                   </ListItemIcon>
                   <ListItemText
                     primary={
                       <React.Fragment>
-                        <Typography className={classes.listText}>
-                          {value.title}
+                        <Typography>
+                          <span className={classes.listText}>
+                            {value.title}
+                          </span>
+
                           <Chip
                             label="issue: bug report"
                             size="small"
@@ -291,18 +305,25 @@ const ListComponent = () => {
                       </React.Fragment>
                     }
                   />
-                </ListItemButton>
-              </ListItem>
-              <Divider />
-            </List>
-          );
-        })
-      ) : (
-        <Grid className={classes.LoadingStyle}>
-          <CircularProgress />
-        </Grid>
-      )}
-    </Grid>
+                </ListItem>
+                <Divider />
+              </List>
+            );
+          })
+        ) : (
+          <Grid className={classes.LoadingStyle}>
+            <CircularProgress />
+          </Grid>
+        )}
+      </Grid>
+      {/* pagination component */}
+      <PaginationComponent
+        totalCount={totalCount}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        handlePageChange={handlePageChange}
+      />
+    </>
   );
 };
 

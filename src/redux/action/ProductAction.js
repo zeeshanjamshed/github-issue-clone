@@ -1,5 +1,5 @@
 import axios from "axios";
-import {baseURL} from "../../helper/Api"
+import { baseURL } from "../../helper/Api";
 import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
@@ -8,35 +8,38 @@ import {
 
 export const fetchPostRequest = () => {
   return {
-    type: FETCH_USER_REQUEST
-  }
-   };
+    type: FETCH_USER_REQUEST,
+  };
+};
 
-export const fetchPostSuccess = (posts) => {
+export const fetchPostSuccess = (data) => {
   return {
     type: FETCH_USER_SUCCESS,
-    payload: posts
-  }
+    payload: data,
+  };
 };
 
 export const fetchPostError = (error) => {
   return {
     type: FETCH_USER_ERROR,
-    payload: error
-  }
+    payload: error,
+  };
 };
 
-export function fetchPosts () {
+export function fetchPosts(page, rowsPerPage) {
   return function (dispatch) {
-    dispatch(fetchPostRequest())
+    dispatch(fetchPostRequest());
     axios
-      .get(baseURL + "/repos/facebook/create-react-app/issues")
+      .get(
+        baseURL +
+          `/search/issues?q=create-react-app&page=${page}&per_page=${rowsPerPage}`
+      )
       .then((response) => {
-        const posts = response.data;
-        dispatch(fetchPostSuccess(posts));
+        const { data } = response;
+        dispatch(fetchPostSuccess(data));
       })
       .catch((error) => {
         dispatch(fetchPostError(error.message));
       });
-  }
-};
+  };
+}

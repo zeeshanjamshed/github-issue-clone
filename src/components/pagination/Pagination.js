@@ -11,12 +11,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PaginationComponent = () => {
+const PaginationComponent = ({
+  totalCount,
+  page,
+  handlePageChange,
+  rowsPerPage,
+}) => {
+
   const classes = useStyles();
+
   return (
     <Grid className={classes.paginationStyle}>
       <Pagination
-        count={50}
+        count={totalCount}
+        page={page}
+        onChange={handlePageChange}
+        rowsPerPage={rowsPerPage}
         shape="rounded"
         color="primary"
         showFirstButton
