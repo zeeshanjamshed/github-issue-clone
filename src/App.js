@@ -1,16 +1,21 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./common/theme/theme";
-import Home from "./components/home/Home";
+import Dashboard from "./components/dashboard/Dashboard";
+import Login from "./components/login/Login";
 import "./App.css";
 
 function App() {
   return (
-    <div>
-      <ThemeProvider theme={theme}>
-        <Home />
-      </ThemeProvider>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route exact path="/login" element={<Login />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

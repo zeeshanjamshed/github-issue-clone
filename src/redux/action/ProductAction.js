@@ -26,13 +26,13 @@ export const fetchPostError = (error) => {
   };
 };
 
-export function fetchPosts(page, rowsPerPage) {
+export function fetchPosts() {
   return function (dispatch) {
     dispatch(fetchPostRequest());
     axios
       .get(
         baseURL +
-          `/search/issues?q=create-react-app&page=${page}&per_page=${rowsPerPage}`
+          `/search/issues?q=create-react-app`
       )
       .then((response) => {
         const { data } = response;
