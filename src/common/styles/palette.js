@@ -5,8 +5,8 @@ exports.palette = {
     dark: "#1565c0",
   },
   secondary: {
-    main: "#D3D3D3", 
-    light: "#F6F8FA", 
+    main: "#E0E0E0",
+    light: "#F5F5F5",
     dark: "#57606A",
   },
   success: {
@@ -30,10 +30,10 @@ exports.palette = {
     dark: "#c62828",
   },
   common: {
+    lightgray: "#F5F5F5",
+    gray: "#E0E0E0",
     white: "#ffffff",
-    black: "#000000",
-    lightBlack:"#24292F"
+    black: "#757575",
+    lightBlack: "#757575",
   },
-
-
 };
