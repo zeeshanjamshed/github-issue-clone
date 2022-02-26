@@ -1,6 +1,6 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@mui/styles";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { Container } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -9,6 +9,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { addTodo } from "../../redux/action/ProductAction";
 
 const useStyles = makeStyles((theme) => ({
   innerContentWrapper: {
@@ -53,54 +54,71 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddBugForm = ({ toggleDrawer, anchor }) => {
-  const [age, setAge] = React.useState("");
+  const [inputData, setInputData] = React.useState({
+    title: "",
+    desc: "",
+    stateValue: "",
+  });
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const dispatch = useDispatch();
+
+  const onChangeHandler = (e) => {
+    setInputData({ ...inputData, [e.target.name]: e.target.value });
   };
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    dispatch(addTodo(inputData));
+    setInputData({
+      title: "",
+      desc: "",
+      stateValue: "",
+    });
+  };
+
   const classes = useStyles();
 
   return (
-    <Container maxWidth="xs" className={classes.mainContainer}>
+    <Container className={classes.mainContainer} maxWidth="xs">
       <div className={classes.wrapper}>
         <Typography component="h1" variant="h5" textAlign="center">
           Add Bug
         </Typography>
-        <Box component="form" sx={{ mt: 2 }}>
+        <form onSubmit={onSubmitHandler}>
           <TextField
             margin="normal"
+            type="text"
             required
             fullWidth
-            id="title"
             label="Title"
-            name="title"
             autoComplete="title"
             autoFocus
             size="medium"
+            name="title"
+            value={inputData.title}
+            onChange={onChangeHandler}
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            name="desc"
             label="Description"
-            type="text"
-            id="desc"
             autoComplete="desc"
             size="medium"
+            name="desc"
+            value={inputData.desc}
+            onChange={onChangeHandler}
           />
           <FormControl fullWidth sx={{ mt: 2 }}>
-            <InputLabel id="demo-simple-select-label">State</InputLabel>
+            <InputLabel>State</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="State"
-              onChange={handleChange}
+              name="stateValue"
+              value={inputData.stateValue}
+              onChange={onChangeHandler}
             >
-              <MenuItem value={10}>Open</MenuItem>
-              <MenuItem value={20}>closed</MenuItem>
-              <MenuItem value={30}>solved</MenuItem>
+              <MenuItem value="open">Open</MenuItem>
+              <MenuItem value="closed">closed</MenuItem>
+              <MenuItem value="solved">solved</MenuItem>
             </Select>
           </FormControl>
           <div className={classes.buttonWrapper}>
@@ -109,6 +127,7 @@ const AddBugForm = ({ toggleDrawer, anchor }) => {
               size="large"
               variant="contained"
               className={classes.buttonCustom}
+              // onClick={toggleDrawer(anchor)}
             >
               Add Bug
             </Button>
@@ -121,10 +140,9 @@ const AddBugForm = ({ toggleDrawer, anchor }) => {
               cancel
             </Button>
           </div>
-        </Box>
+        </form>
       </div>
     </Container>
   );
 };
-
 export default AddBugForm;

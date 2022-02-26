@@ -1,7 +1,11 @@
-import { fetchPosts } from "./ProductAction";
+import { addTodo } from "./ProductAction";
+import { deleteTodo } from "./ProductAction";
+import { updateTodo } from "./ProductAction";
 
 const allActions = {
-  fetchPosts,
+  addTodo,
+  deleteTodo,
+  updateTodo
 };
 
 export default allActions;

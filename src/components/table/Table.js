@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@mui/styles";
 import Grid from "@mui/material/Grid";
 import {
@@ -15,6 +16,8 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CircularProgress from "@mui/material/CircularProgress";
+import { deleteTodo } from "../../redux/action/ProductAction";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   innerContentWrapper: {
@@ -81,46 +84,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const userData = [
-  {
-    title: "issue 1",
+const TableComponent = ({ list , inputData }) => {
 
-    desc: "desc 1",
-
-    state: "open",
-  },
-  {
-    title: "issue 2",
-
-    desc: "desc 2",
-
-    state: "open",
-  },
-  {
-    title: "issue 2",
-
-    desc: "desc 3",
-
-    state: "open",
-  },
-  {
-    title: "issue 4",
-
-    desc: "desc 4",
-
-    state: "open",
-  },
-  {
-    title: "issue 5",
-
-    desc: "desc 5",
-
-    state: "open",
-  },
-];
-
-const TableComponent = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
+
+  const onDelete = (ind) => {
+    dispatch(deleteTodo(ind));
+    // console.log(ind , "index")
+  };
+
+  const onEdit = (ind) => {
+    // const newObject = list.find((e) => e.data.id === ind);
+    // setInputData({
+    //   title: newObject?.data?.title,
+    //   desc: newObject?.data?.desc,
+    //   stateValue: newObject?.data?.stateValue,
+    // });
+    console.log(ind , "edit index")
+  };
+
   return (
     <Grid className={classes.tableWrapper}>
       <TableContainer component={Paper}>
@@ -142,21 +125,27 @@ const TableComponent = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {userData?.length ? (
-              userData.map((data, ind) => {
+            {list.length ? (
+              list.map((data, ind) => {
                 return (
-                  <TableRow key={data.ind}>
-                    <TableCell align="center">{data.title}</TableCell>
-                    <TableCell align="center">{data.desc}</TableCell>
-                    <TableCell align="center">{data.state}</TableCell>
+                  <TableRow key={ind}>
+                    <TableCell align="center">{data.data.title}</TableCell>
+                    <TableCell align="center">{data.data.desc}</TableCell>
+                    <TableCell align="center">{data.data.stateValue}</TableCell>
                     <TableCell align="center">
                       <Tooltip title="Edit" placement="top">
-                        <IconButton>
+                        <IconButton onClick={() => {
+                            onEdit(ind);
+                          }}>
                           <EditIcon className={classes.editBtn} />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="Delete" placement="top">
-                        <IconButton>
+                        <IconButton
+                          onClick={() => {
+                            onDelete(ind);
+                          }}
+                        >
                           <DeleteIcon className={classes.deleteBtn} />
                         </IconButton>
                       </Tooltip>
@@ -166,8 +155,9 @@ const TableComponent = () => {
               })
             ) : (
               <TableRow>
-                <TableCell colSpan={3} className={classes.loadingMessage}>
-                  <CircularProgress />
+                <TableCell colSpan={4} className={classes.loadingMessage}>
+                  {/* <CircularProgress />
+                  +- */}
                 </TableCell>
               </TableRow>
             )}

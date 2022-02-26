@@ -1,42 +1,39 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@mui/styles";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Fab from "@mui/material/Fab";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import AddIcon from "@mui/icons-material/Add";
-import { Container } from "@mui/material";
 import Table from "../table/Table";
 import AddBugForm from "../addBug/AddBugForm";
-import { width } from "@mui/system";
 
 const useStyles = makeStyles((theme) => ({
-  innerContentWrapper: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    width: "100%",
-  },
-  fabWrapper: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  fabCustom: {
-    padding: `${theme.spacing(2)} !important`,
-    backgroundColor: `${theme.palette.common.gray} !important`,
-    "&:hover": {
-      backgroundColor: `${theme.palette.common.gray} !important`,
+    innerContentWrapper: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      width: "100%",
     },
-  },
-}));
+    fabWrapper: {
+      display: "flex",
+      justifyContent: "center",
+    },
+    fabCustom: {
+      padding: `${theme.spacing(2)} !important`,
+      backgroundColor: `${theme.palette.common.gray} !important`,
+      "&:hover": {
+        backgroundColor: `${theme.palette.common.gray} !important`,
+      },
+    },
+  }));
 
 export default function Bugs() {
   const [state, setState] = React.useState({
     left: false,
   });
 
+  const list = useSelector((state) => state.todoReducers.list);
   const classes = useStyles();
-
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -50,38 +47,28 @@ export default function Bugs() {
   };
 
   return (
-    <div className={classes.innerContentWrapper}>
-      {["left"].map((anchor) => (
-        <Grid>
-          <div className={classes.fabWrapper}>
-            <Fab
-              variant="extended"
-              className={classes.fabCustom}
-              onClick={toggleDrawer(anchor, true)}
-            >
-              <AddIcon sx={{ mr: 2 }} />
-              Add Bug
-            </Fab>
-          </div>
-          {/* table component */}
-          <Table />
-          <SwipeableDrawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, true)}
+    <div>
+      <React.Fragment>
+        <div className={classes.fabWrapper}>
+          <Fab
+            variant="extended"
+            className={classes.fabCustom}
+            onClick={toggleDrawer("left", true)}
           >
-            <Box
-              role="presentation"
-              onKeyDown={toggleDrawer(anchor, false)}
-              className={classes.drawerCustom}
-            >
-              {/* add form */}
-              <AddBugForm toggleDrawer={toggleDrawer} anchor={anchor} />
-            </Box>
-          </SwipeableDrawer>
-        </Grid>
-      ))}
+            <AddIcon sx={{ mr: 2 }} />
+            Add Bug
+          </Fab>
+        </div>
+        <SwipeableDrawer
+          anchor="left"
+          open={state.left}
+          onClose={toggleDrawer("left", false)}
+          onOpen={toggleDrawer("left", true)}
+        >
+          <AddBugForm anchor={"left"} toggleDrawer={toggleDrawer} />
+        </SwipeableDrawer>
+        <Table list={list} />
+      </React.Fragment>
     </div>
   );
 }

@@ -64,7 +64,6 @@ const Sidebar = ({ toggleDrawer, open }) => {
   const classes = useStyles();
   const pathName = usePathname();
   const path = pathName.slice(1, pathName.length);
-  console.log(path);
   return (
     <>
       <Drawer variant="permanent" open={open}>
@@ -102,7 +101,7 @@ const Sidebar = ({ toggleDrawer, open }) => {
           </NavLink>
           <NavLink
             to="/dashboard"
-            active
+            // active
             className={(navData) =>
               navData.isActive ? classes.active : classes.LinkCustom
             }
